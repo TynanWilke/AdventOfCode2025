@@ -60,9 +60,6 @@ def part2():
     for line in lines:
         dir = line[0]
         amt = int(line[1:])
-        print("dir", dir)
-        print("amt", amt)
-        print("bpos", pos)
         for i in range(0, amt):
             if dir == 'L':
                 pos -= 1
@@ -74,7 +71,6 @@ def part2():
                 pos = 0
             if pos == 0:
                 zeros += 1
-        print("apos", pos)
     print("ANSWER: ", zeros)
 
 # Run parts
