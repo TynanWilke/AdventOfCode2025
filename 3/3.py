@@ -50,7 +50,28 @@ def part1():
 
 def part2():
     print("=== PART 2 ===")
-    print("ANSWER: ", "HERE")
+    max_len = 12
+    jolt = 0
+    for line in lines:
+        best = ""
+        for i in range(0, max_len):
+            print("line", line)
+            remain = max_len - i
+            print("remain", remain)
+            if remain > 1:
+                opts = line[:1 - remain]
+            else:
+                opts = line
+            print("opts", opts)
+            b = max(opts)
+            print("b", b)
+            best += b
+            print("best", best)
+            line = line[line.index(b) + 1:]
+        print("jolt", best)
+        jolt += int(best)
+
+    print("ANSWER: ", jolt)
 
 # Run parts
 part = args.part
