@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-
 import os
 import sys
 import argparse
@@ -35,17 +34,12 @@ def part1():
     print("=== PART 1 ===")
     jolt = 0
     for line in lines:
-        print("line", line)
         sline = sorted(line[:-1], reverse=True)
-        print("sline", sline)
         a, b = sline[:2]
-        print("top", a, b)
         ma = a + max(line[line.index(a) + 1:])
         mb = b + max(line[line.index(b) + 1:])
-        print("ma mb", ma, mb)
         best = max(ma, mb)
         jolt += int(best)
-        print("jolt", jolt)
     print("ANSWER: ", jolt)
 
 def part2():
@@ -55,20 +49,14 @@ def part2():
     for line in lines:
         best = ""
         for i in range(0, max_len):
-            print("line", line)
             remain = max_len - i
-            print("remain", remain)
             if remain > 1:
                 opts = line[:1 - remain]
             else:
                 opts = line
-            print("opts", opts)
             b = max(opts)
-            print("b", b)
             best += b
-            print("best", best)
             line = line[line.index(b) + 1:]
-        print("jolt", best)
         jolt += int(best)
 
     print("ANSWER: ", jolt)
