@@ -30,25 +30,37 @@ print(f"INPUT: {fn}")
 rolls = {}
 with open(fn, 'r') as f:
     lines = [line.strip() for line in f if line.strip()]
-    rolls = [(r, c)
-             for r, line in enumerate(lines)
-             for c, x in enumerate(line) if x == '@']
-print("rolls", rolls, len(rolls))
+    rolls = set([(r, c)
+                 for r, line in enumerate(lines)
+                 for c, x in enumerate(line) if x == '@'])
 
 # Parts
 def part1():
     print("=== PART 1 ===")
     offs = [(1, 0), (-1, 0), (0, 1), (0, -1), (1, 1), (1, -1), (-1, 1), (-1, -1)]
-    bs = {roll: [(roll[0] + off[0], roll[1] + off[1]) for off in offs if (roll[0] + off[0], roll[1] + off[1]) in rolls] for roll in rolls}
-    pprint.pprint(bs)
+    bs = {roll: [(roll[0] + off[0], roll[1] + off[1])
+                 for off in offs if (roll[0] + off[0], roll[1] + off[1]) in rolls]
+          for roll in rolls}
     good_rolls = [roll for roll, b in bs.items() if len(b) < 4]
-    print("good_rolls", good_rolls)
 
     print("ANSWER: ", len(good_rolls))
 
 def part2():
     print("=== PART 2 ===")
-    print("ANSWER: ", "HERE")
+    offs = [(1, 0), (-1, 0), (0, 1), (0, -1), (1, 1), (1, -1), (-1, 1), (-1, -1)]
+    c = 0
+    while True:
+        bs = {roll: [(roll[0] + off[0], roll[1] + off[1])
+                    for off in offs if (roll[0] + off[0], roll[1] + off[1]) in rolls]
+            for roll in rolls}
+        good_rolls = [roll for roll, b in bs.items() if len(b) < 4]
+        if not good_rolls:
+            break
+
+        c += len(good_rolls)
+        rolls.difference_update(good_rolls)
+
+    print("ANSWER: ", c)
 
 # Run parts
 part = args.part
