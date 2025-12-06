@@ -49,25 +49,17 @@ def part2():
     rows = [line for line in lines[:-1] if line.strip()]
     ops = [c for c in lines[-1].split()]
 
-    print(f"{rows=}")
     ans = 0
     vals = collections.defaultdict(str)
     for c in range(len(rows[0])):
-        print(f"{c=}")
         if all([line[c] in (' ', '\n') for line in rows]):
-            print(f"BREAK {vals=}")
-            op = ops[0]
-            print(f"OP {op=}")
-            op = sum if op == '+' else math.prod
+            op = sum if ops[0] == '+' else math.prod
             ops.pop(0)
-            tot = op(map(int, vals.values()))
-            print(f"{tot=}")
-            ans += tot
+            ans += op(map(int, vals.values()))
             vals.clear()
             continue
         for r, line in enumerate(rows):
             vals[c] += line[c]
-        print(f"inter {vals=}")
 
     print("ANSWER: ", ans)
 
