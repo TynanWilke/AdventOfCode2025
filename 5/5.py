@@ -29,12 +29,8 @@ else:
 print(f"INPUT: {fn}")
 with open(fn, 'r') as f:
     inv, ing = f.read().split('\n\n')
-    print(f"{inv=}")
-    print(f"{ing=}")
     invs = [tuple(map(int, i.split('-'))) for i in inv.split('\n') if i.strip()]
-    print(f"{invs=}")
     ings = [int(i) for i in ing.split('\n') if i.strip()]
-    print(f"{ings=}")
 
 # Parts
 def part1():
@@ -44,14 +40,55 @@ def part1():
         for inv in invs:
             rhs, lhs = inv
             if rhs <= ing <= lhs:
-                print(f"{ing=} fresh from {inv=}")
                 fresh += 1
                 break
     print("ANSWER: ", fresh)
 
 def part2():
     print("=== PART 2 ===")
-    print("ANSWER: ", "HERE")
+    #invs = [(2, 7), (5, 10)]
+    fresh = set()
+    for inv in invs:
+        print(f"{inv=}")
+        beg, end = inv
+        new_fresh = []
+        for fresh in fresh:
+            print(f"check {beg=}, {end=} against {fresh=}")
+            fbeg, fend = fresh
+            # Inner
+            if fbeg <= beg <= fend and fbeg <= end <= fend:
+                beg = fbeg
+                end = fend
+                print(f"Inner {inv=} {fresh=}")
+                continue
+
+            # Outer
+            elif beg <= fbeg <= end and beg <= fend <= end:
+                print(f"Outer {inv=} {fresh=}")
+                continue
+
+            # Over right
+            elif beg < fbeg and fbeg <= end <= fend:
+                end = fend
+                print(f"Over right {inv=} {fresh=}")
+                continue
+
+            # Over left
+            elif fbeg <= beg <= fend and end > fend:
+                beg = fbeg
+                print(f"Over left {inv=} {fresh=}")
+                continue
+
+            # Add to new fresh ranges
+            new_fresh.append((fbeg, fend))
+
+        if beg and end:
+            new_fresh.append((beg, end))
+        fresh = new_fresh
+        print(f"{fresh=}")
+    print(f"final {fresh=}")
+    c = sum([1 + end - beg for beg, end in fresh])
+    print("ANSWER: ", c)
 
 # Run parts
 part = args.part
