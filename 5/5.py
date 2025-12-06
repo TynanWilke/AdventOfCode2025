@@ -46,37 +46,30 @@ def part1():
 
 def part2():
     print("=== PART 2 ===")
-    #invs = [(2, 7), (5, 10)]
     fresh = set()
     for inv in invs:
-        print(f"{inv=}")
         beg, end = inv
         new_fresh = []
         for fresh in fresh:
-            print(f"check {beg=}, {end=} against {fresh=}")
             fbeg, fend = fresh
             # Inner
             if fbeg <= beg <= fend and fbeg <= end <= fend:
                 beg = fbeg
                 end = fend
-                print(f"Inner {inv=} {fresh=}")
                 continue
 
             # Outer
             elif beg <= fbeg <= end and beg <= fend <= end:
-                print(f"Outer {inv=} {fresh=}")
                 continue
 
             # Over right
             elif beg < fbeg and fbeg <= end <= fend:
                 end = fend
-                print(f"Over right {inv=} {fresh=}")
                 continue
 
             # Over left
             elif fbeg <= beg <= fend and end > fend:
                 beg = fbeg
-                print(f"Over left {inv=} {fresh=}")
                 continue
 
             # Add to new fresh ranges
@@ -85,8 +78,6 @@ def part2():
         if beg and end:
             new_fresh.append((beg, end))
         fresh = new_fresh
-        print(f"{fresh=}")
-    print(f"final {fresh=}")
     c = sum([1 + end - beg for beg, end in fresh])
     print("ANSWER: ", c)
 
