@@ -28,15 +28,13 @@ else:
 
 # Get data
 print(f"INPUT: {fn}")
-with open(fn, 'r') as f:
-    lines = [line.strip() for line in f]
-    vals, ops = [list(map(int, line.split())) for line in lines[:-1]], [x for x in lines[-1].split()]
-    print(f"{vals=}")
-    print(f"{ops=}")
 
 # Parts
 def part1():
     print("=== PART 1 ===")
+    with open(fn, 'r') as f:
+        lines = [line.strip() for line in f]
+        vals, ops = [list(map(int, line.split())) for line in lines[:-1]], [x for x in lines[-1].split()]
     ans = 0
     for c in range(0, len(ops)):
         op = sum if ops[c] == '+' else math.prod
@@ -46,7 +44,32 @@ def part1():
 
 def part2():
     print("=== PART 2 ===")
-    print("ANSWER: ", "HERE")
+    with open(fn, 'r') as f:
+        lines = [line for line in f]
+    rows = [line for line in lines[:-1] if line.strip()]
+    ops = [c for c in lines[-1].split()]
+
+    print(f"{rows=}")
+    ans = 0
+    vals = collections.defaultdict(str)
+    for c in range(len(rows[0])):
+        print(f"{c=}")
+        if all([line[c] in (' ', '\n') for line in rows]):
+            print(f"BREAK {vals=}")
+            op = ops[0]
+            print(f"OP {op=}")
+            op = sum if op == '+' else math.prod
+            ops.pop(0)
+            tot = op(map(int, vals.values()))
+            print(f"{tot=}")
+            ans += tot
+            vals.clear()
+            continue
+        for r, line in enumerate(rows):
+            vals[c] += line[c]
+        print(f"inter {vals=}")
+
+    print("ANSWER: ", ans)
 
 # Run parts
 part = args.part
