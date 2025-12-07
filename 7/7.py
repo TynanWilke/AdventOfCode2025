@@ -34,7 +34,6 @@ with open(fn, 'r') as f:
                  for r, line in enumerate(lines)
                  for c, x in enumerate(line)
                  if x == '^']
-    print(f"{splitters=}")
 
 # Parts
 def part1():
@@ -42,14 +41,9 @@ def part1():
     tachs = set([(0, start)])
     max_r = max(r for r, _ in splitters)
     splits = 0
-    print(f"{max_r=}")
     for i in range(max_r):
-        print(f"{i=}")
-        print(f"INIT {tachs=}")
-
         # Move tach down
         tachs = set([(r + 1, c) for r, c in tachs])
-        print(f"MOVED {tachs=}")
 
         # Find tachs on splitters
         for tach in copy.copy(tachs):
@@ -63,7 +57,39 @@ def part1():
 
 def part2():
     print("=== PART 2 ===")
-    print("ANSWER: ", "HERE")
+    max_r = max(r for r, _ in splitters)
+    memo = {}
+    def num_paths(path):
+        tach = path[-1]
+        r, c = tach
+        if r >= max_r + 1:
+            return 1
+
+        if tach in memo:
+            return memo[tach]
+
+        if tach in splitters:
+            lhs_path = copy.copy(path)
+            lhs_path.pop()
+            lhs_path.append((r, c - 1))
+            lhs = num_paths(lhs_path)
+
+            rhs_path = copy.copy(path)
+            rhs_path.pop()
+            rhs_path.append((r, c + 1))
+            rhs = num_paths(rhs_path)
+            n = lhs + rhs
+        else:
+            next_path = copy.copy(path)
+            next_path.append((r + 1, c))
+            n = num_paths(next_path)
+
+        memo[tach] = n
+        return n
+
+    path = [(0, start)]
+    n = num_paths(path)
+    print("ANSWER: ", n)
 
 # Run parts
 part = args.part
